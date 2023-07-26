@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cl.awakelab.sprint41.databinding.FragmentDetalleBinding
+import coil.load
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM1 = "nombre"
+private const val ARG_PARAM2 = "precio"
+private const val ARG_PARAM3 = "url"
 
 /**
  * A simple [Fragment] subclass.
@@ -17,15 +20,19 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class DetalleFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    private lateinit var binding: FragmentDetalleBinding
+    private lateinit var  zapatoslista: MutableList<Zapato>
+    val bundle = Bundle()
     private var param1: String? = null
     private var param2: String? = null
+    private var param3: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+            param3 = it.getString(ARG_PARAM3)
         }
     }
 
@@ -33,8 +40,15 @@ class DetalleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detalle, container, false)
+        binding = FragmentDetalleBinding.inflate(layoutInflater)
+        initListener()
+        return binding.root
+    }
+
+    private fun initListener() {
+        binding.imgDetalle.load(param3)
+        binding.tvNombreDetalle.text =param1
+        binding.tvPrecioDetalle.text = "$$param2"
     }
 
     companion object {
